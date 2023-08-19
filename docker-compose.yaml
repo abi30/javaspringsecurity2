@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db-authenticatejwt
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authenticatejwt
+    ports:
+      - "5432:5432"
+#    restart: always
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/data/postgres
+    networks:
+      - postgres_data
+
+
+
+  pgadmin:
+    container_name: pgadmin_authenticatejwt
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres_data
+    restart: unless-stopped
+
+networks:
+  postgres_data:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin:
