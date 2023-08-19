@@ -10,7 +10,6 @@ services:
       POSTGRES_DB: authenticatejwt
     ports:
       - "5432:5432"
-#    restart: always
     restart: unless-stopped
     volumes:
       - postgres_data:/data/postgres
